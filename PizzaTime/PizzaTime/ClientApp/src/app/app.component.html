@@ -1,0 +1,52 @@
+<body>
+
+  <header class="navbar">
+
+    <div class="container">
+
+      <div class="row w-100">
+
+        <div class="col-md-7">
+          <h2 class="d-inline">
+            <a routerLink="">PIZZA TIME</a>
+          </h2>
+          <b>the best pizza in this village</b>
+
+          <a routerLink="/about">
+            <sup>&copy;</sup>
+          </a>
+
+        </div>
+
+        <div class="col-md-1">
+
+          <a routerLink="/cart">
+            <img id="cartImg" src="assets/Cart.png" alt="Cart">
+          </a>
+
+        </div>
+
+        <div id="loginBlock" class="col-md-4">
+
+          <app-login></app-login>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </header>
+
+  <div class="body-content">
+
+    <div class="container p-1">
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </div>
+
+</body>

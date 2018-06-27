@@ -1,0 +1,46 @@
+<form #loginForm="ngForm" novalidate>
+
+  <div *ngIf="!isAuthorised" class="row">
+
+    <div class="col-8">
+
+      <div class="form-group row">
+        <label for="login" class="col-5">Login</label>
+        <input type="text" id="login" #login name="login" ngModel class="col-7" required />
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-5">Password</label>
+        <input type="password" id="password" #password name="password" ngModel class="col-7" required />
+      </div>
+
+    </div>
+
+    <div class="col-4">
+      <div>
+        <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary h-75 w-100" (click)="Login(login.value,password.value)">Login</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-primary h-25 w-100 mt-1" (click)="OpenRegistrationForm()">Register</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="isAuthorised" class="row">
+
+    <div class="col-8">
+      <label>{{GetUserString()}}</label>
+      <br>
+      <label>{{GetCartStatus()}}</label>
+    </div>
+
+    <div class="col-4">
+
+      <button type="submit" class="btn btn-primary h-100" (click)="LogOff()">Logout</button>
+
+    </div>
+
+  </div>
+
+</form>

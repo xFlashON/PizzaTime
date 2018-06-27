@@ -1,0 +1,3 @@
+<ul class="list-group" *ngIf = "pizzaList">
+  <li class="list-group-item" *ngFor="let pizza of pizzaList; index as i;" (click)="menuItemSelected.emit(i)">{{pizza.Name}}</li>
+</ul>

@@ -1,0 +1,9 @@
+<div id="ingredients" *ngIf="currentPizza">
+
+  <div *ngFor="let ingredient of currentPizza.Ingredients"  class="ingredientItem border border-dark rounded d-inline-block m-1">
+    <input type="checkbox" class="m-2"  [(ngModel)]="ingredient.Selected" (change)="onSelectionChange($event)">
+    <b>{{ingredient.Name}}</b>
+    <div class="m-2 text-primary">{{ingredient.Price|currency}}</div>
+  </div>
+  
+</div>

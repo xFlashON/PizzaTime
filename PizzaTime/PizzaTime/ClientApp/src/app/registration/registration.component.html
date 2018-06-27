@@ -1,0 +1,38 @@
+<form [formGroup]="RegistrationForm" (ngSubmit)="Submit()" *ngIf="!RegistrationComplete">
+
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" type="text" class="form-control" formControlName="Name" [class.invalid]="!RegistrationForm.controls['Name'].valid">
+  </div>
+
+  <div class="form-group">
+    <label for="Email">E-mail</label>
+    <input id="Email" type="email" class="form-control" formControlName="Email" [class.invalid]="!RegistrationForm.controls['Email'].valid">
+  </div>
+
+  <div class="form-group">
+    <label for="PhoneNumber">Phone number</label>
+    <input id="PhoneNumber" type="text" class="form-control" formControlName="PhoneNumber" [class.invalid]="!RegistrationForm.controls['PhoneNumber'].valid">
+  </div>
+
+  <div class="form-group">
+    <label for="DefaultDeliveryAdress">Delivery adress</label>
+    <input id="DefaultDeliveryAdress" type="text" class="form-control" formControlName="DefaultDeliveryAdress" [class.invalid]="!RegistrationForm.controls['DefaultDeliveryAdress'].valid">
+  </div>
+
+  <div class="form-group">
+    <label for="Password">Password</label>
+    <input id="Password" type="password" class="form-control" formControlName="Password" [class.invalid]="!RegistrationForm.controls['Password'].valid">
+    
+    <label for="PasswordConfirm">Conform Password</label>
+    <input id="PasswordConfirm" type="password" class="form-control" formControlName="PasswordConfirm" [class.invalid]="!RegistrationForm.controls['PasswordConfirm'].valid">
+
+    <div class="alert alert-danger" *ngIf="RegistrationForm.controls['PasswordConfirm'].errors?.MatchPassword">Password not match</div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!RegistrationForm.valid">Register</button>
+
+</form>
+
+<div class="alert alert-success" *ngIf="RegistrationComplete">Registration suсcsessful</div>

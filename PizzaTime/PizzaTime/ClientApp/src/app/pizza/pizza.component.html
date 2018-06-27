@@ -1,0 +1,29 @@
+<div class="m-2">
+
+  <app-pizza-carusel id="pizzaCarusel" [pizzaList]="pizzaList" 
+  (currentPizzaChanged)="currentPizzaChanged($event)"
+  [selectedMenuItem]="selectedMenuItem"
+  ></app-pizza-carusel>
+
+</div>
+
+<div class="row" *ngIf="pizzaList">
+
+  <div class="col-md-10 align-content-center">
+
+    <app-pizza-ingredients [currentPizza]="currentPizza" (selectionChanged)="calculateTotal()"></app-pizza-ingredients>
+
+  </div>
+
+  <div class="col-md-2 align-content-center" *ngIf="currentPizza">
+
+    <button id="addToCartBtn" type="button" class="btn btn-primary" (click)="AddToCart(currentPizza)">Add to cart</button>
+
+    <label id="totalDishCost" class="h5 m-2">Total pizza cost: {{currentPizza.Total|currency}}</label>
+
+  </div>
+
+</div>
+
+<div class="alert alert-primary" *ngIf="pizzaList.length == 0;">Today menu yet not set</div>
+

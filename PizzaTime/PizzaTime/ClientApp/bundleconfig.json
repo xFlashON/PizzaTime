@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "src/app/app.component.min.html",
+    "inputFiles": [
+      "src/app/app.component.html"
+    ]
+  }
+]

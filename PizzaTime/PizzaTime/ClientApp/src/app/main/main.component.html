@@ -1,0 +1,26 @@
+<div class="row">
+
+
+  <div id="menu" class="col-md-3">
+
+    <b>Today menu:</b>
+
+    <aside>
+
+      <app-menu [pizzaList]="pizzaList" (menuItemSelected)="onSelectedMenuItemChanged($event)"></app-menu>
+
+    </aside>
+
+  </div>
+
+  <div id="content" class="col-md-9">
+
+    <div id="pizza">
+
+      <app-pizza [selectedMenuItem]="selectedMenuItem" (menuLoad)="onMenuLoad($event)"></app-pizza>
+
+    </div>
+
+  </div>
+
+</div>

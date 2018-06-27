@@ -1,0 +1,10 @@
+
+<carousel [(activeSlide)]="activeSlideIndex" (activeSlideChange)="onCurrentPizzaChanged($event)" [interval]="false">
+  <slide class="bg-secondary" align="center" *ngFor="let pizza of pizzaList">
+      <img class="slide-img" src="{{pizza.ImageUrl!=''?pizza.ImageUrl:'assets/PlaceholderPizza.jpg'}}" alt="{{pizza.Name}}">
+    <div class="carousel-caption">
+      <h3>{{pizza.Name}}</h3>
+      <p>{{pizza.Description}}</p>
+    </div>
+  </slide>
+</carousel>

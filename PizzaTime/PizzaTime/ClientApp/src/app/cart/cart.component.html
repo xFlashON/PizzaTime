@@ -1,0 +1,62 @@
+<h2>Cart</h2>
+
+<table *ngIf="order" class="table table-bordered table-striped">
+
+  <tr>
+    <th>Pizza</th>
+    <th>Ingredients</th>
+    <th>Cost</th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let pizza of order.PizzaList">
+    <td>{{pizza.Name}}</td>
+    <td>
+      <div *ngFor="let ingredient of pizza.Ingredients">
+        <div *ngIf="ingredient && ingredient.Selected">{{ingredient.Name}}</div>
+      </div>
+    </td>
+    <td>{{pizza.Total|currency}}</td>
+    <th>
+      <button class="btn btn-light" (click)="RemoveItem(pizza)">remove</button>
+    </th>
+  </tr>
+
+
+  <tfoot>
+    <tr>
+      <td colspan="2">Total</td>
+      <td colspan="2">{{order.Total|currency}}</td>
+    </tr>
+  </tfoot>
+
+</table>
+
+<form *ngIf="IsAutorised()" id="sendOrder" class="border rounded p-5" [formGroup]="SubmitOrder" novalidate (ngSubmit)="SendOrder()">
+
+  <div class="form-group">
+
+    <label for="deliveryAdress">Delivery adress</label>
+
+    <input type="text" id="deliveryAdress" class="w-100" formControlName="DeliveryAdress" />
+
+    <div class="alert alert-danger" *ngIf="SubmitOrder.controls['DeliveryAdress'].invalid && SubmitOrder.controls['DeliveryAdress'].touched">
+      Missing delivery address
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="comment">Comment</label>
+    <input type="text" id="comment" class="w-100" formControlName="Comment" />
+
+  </div>
+
+  <input type="submit" class="btn btn-primary" [disabled]="SubmitOrder.invalid" value="Send order" />
+
+</form>
+
+<div *ngIf="!IsAutorised()" class="alert alert-info">
+  You must be logged in to send order!
+</div>
