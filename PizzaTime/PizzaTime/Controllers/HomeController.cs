@@ -12,6 +12,7 @@ namespace PizzaTime.Controllers
     [Route("api/Home")]
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Error()
         {
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;

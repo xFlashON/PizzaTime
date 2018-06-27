@@ -25,6 +25,7 @@ namespace PizzaTime.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult GetMenu()
         {
 
