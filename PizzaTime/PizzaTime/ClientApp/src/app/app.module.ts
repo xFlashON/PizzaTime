@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component, Injectable } from '@angular/core';
+import { NgModule, Component, Injectable, Injector } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PizzaComponent } from './pizza/pizza.component';
@@ -23,6 +23,7 @@ import { OrderServise } from './services/orderServise';
 import { ProtectionServise } from './services/protectionServise';
 import { SharedModule } from './sharedModule';
 import { RegistrationComponent } from './registration/registration.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -46,21 +47,30 @@ import { RegistrationComponent } from './registration/registration.component';
     SharedModule.forRoot(),
     RouterModule,
     CarouselModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
-    { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
+    OrderServise,
+    ProtectionServise,
+    { provide: 'ApiUrl', useFactory: getBaseUrl },
+    //{ provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
     {
-      provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:
-        (protectionServise: ProtectionServise) => {
-          if (environment.production) {
-            return new DataService( protectionServise);
-          } else {
-            return new testDataService( protectionServise);
-          }
+      provide: abstractDataService, deps: [ProtectionServise, 'ApiUrl', HttpClient], useFactory:
+        (protectionServise: ProtectionServise, ApiUrl, HttpClient) => {
+          //if (environment.production) {
+          return new DataService(protectionServise, ApiUrl, HttpClient);
+          //} else {
+          //  return new testDataService( protectionServise);
+          //}
         }
     }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+export function getBaseUrl() {
+  return document.getElementsByTagName('base')[0].href;
+}

@@ -5,7 +5,9 @@ import { Ingredient } from "../models/ingredient";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class testDataService extends abstractDataService {
 
     getMenu(): Observable<Pizza[]> {

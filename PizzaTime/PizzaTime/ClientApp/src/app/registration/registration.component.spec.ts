@@ -31,7 +31,7 @@ describe('RegistrationComponent', () => {
       {
         provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:
           (protectionServise: ProtectionServise) => {
-            return new testDataService( protectionServise);
+            return new testDataService( protectionServise,'ApiUrl');
           }
       }],
      declarations: [RegistrationComponent]

@@ -4,6 +4,7 @@ import { Ingredient } from '../models/ingredient';
 import { Subject } from 'rxjs/Subject';
 import { abstractDataService } from '../services/abstractDataService';
 import { OrderServise } from '../services/orderServise';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-pizza',
@@ -29,7 +30,18 @@ export class PizzaComponent implements OnInit {
   ngOnInit() {
 
     this.dataService.getMenu().subscribe(data => {
-      this.pizzaList = data;
+
+      console.log(data);
+
+      this.pizzaList = data.map(p => new Pizza(p.Name,
+        p.Price,
+        p.Description,
+        p.Ingredients.map(i => new Ingredient(i.Name, i.Price, false, i.Id)),
+        p.ImageUrl,
+        p.Id));
+
+      console.log(this.pizzaList);
+
       if (this.pizzaList.length > 0)
         this.currentPizza = this.pizzaList[0];
 

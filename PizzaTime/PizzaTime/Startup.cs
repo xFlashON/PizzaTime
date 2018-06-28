@@ -30,6 +30,7 @@ using DAL.Repositories;
 using DAL;
 using PizzaTime.ViewModels;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Newtonsoft.Json.Serialization;
 
 namespace PizzaTime
 {
@@ -61,7 +62,7 @@ namespace PizzaTime
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
             // In production, the Angular files will be served from this directory
