@@ -25,7 +25,9 @@ namespace PizzaTime.ViewModels
             CreateMap<Ingredient, IngredientViewModel>();
 
             CreateMap<PizzaIngredient, IngredientViewModel>().ForMember(i=>i.Id, map=>map.MapFrom(i=>i.Ingredient.Id))
-            .ForMember(i => i.Name, map => map.MapFrom(i => i.Ingredient.Name));
+            .ForMember(i => i.Name, map => map.MapFrom(i => i.Ingredient.Name)).ReverseMap();
+
+            CreateMap<Customer, CustomerViewModel>().ForMember(c=>c.Password, map => map.Ignore()).ForSourceMember(c=>c.PasswordHash,map=>map.Ignore()).ReverseMap();
 
             //CreateMap<Order, OrderViewModel>()
             //    .ReverseMap();

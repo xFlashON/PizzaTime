@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace DAL.Models
 {
     [Table("Customers")]
-    public class Customer:IEntity
+    public class Customer : IEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity), Required]
         public Guid Id { get; set; }
@@ -18,13 +18,17 @@ namespace DAL.Models
         [Required, MaxLength(100), ConcurrencyCheck]
         public String Name { get; set; }
 
-        [Required,MaxLength(100)]
+        [Required, MaxLength(100)]
         public String Email { get; set; }
 
         [MaxLength(25)]
         public String PhoneNumber { get; set; }
 
         public String DeliveryAdress { get; set; }
+
+        public String Role {get; set;}
+
+        public String PasswordHash { get; set; }
 
     }
 }

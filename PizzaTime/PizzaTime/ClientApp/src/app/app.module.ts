@@ -24,6 +24,8 @@ import { ProtectionServise } from './services/protectionServise';
 import { SharedModule } from './sharedModule';
 import { RegistrationComponent } from './registration/registration.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { AlertService } from './services/alert.service';
+import { ToastyModule } from 'ng2-toasty';
 
 
 @NgModule({
@@ -47,12 +49,14 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     SharedModule.forRoot(),
     RouterModule,
     CarouselModule.forRoot(),
+    ToastyModule.forRoot(),
     AppRoutingModule,
     HttpClientModule
   ],
   providers: [
     OrderServise,
     ProtectionServise,
+    AlertService,
     { provide: 'ApiUrl', useFactory: getBaseUrl },
     //{ provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
     {

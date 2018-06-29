@@ -15,9 +15,8 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Newtonsoft.Json;
-
 using Microsoft.AspNetCore.Authorization;
-//using PizzaTime.ViewModels;
+using PizzaTime.ViewModels;
 using PizzaTime.Helpers;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
@@ -28,9 +27,11 @@ using System.Collections.Generic;
 using DAL.Interfaces;
 using DAL.Repositories;
 using DAL;
-using PizzaTime.ViewModels;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Newtonsoft.Json.Serialization;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using PizzaTime.Auth;
 
 namespace PizzaTime
 {
@@ -57,6 +58,24 @@ namespace PizzaTime
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("PizzaTime"));
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = AuthOptions.ISSUER,
+
+                            ValidateAudience = true,
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            ValidateLifetime = true,
+
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
 
             // Add cors
             services.AddCors();

@@ -1,3 +1,6 @@
+
+@import '~ng2-toasty/bundles/style-bootstrap.css';
+
 body {
   height: 100%;
   width: 100%;

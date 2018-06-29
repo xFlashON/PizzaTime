@@ -1,51 +1,60 @@
 import { User } from "../models/user";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class ProtectionServise {
 
-    private token: string;
+  private token: string;
 
-    isAuthorised: boolean;
+  isAuthorised: boolean;
 
-    user: User;
+  user: User;
 
-    constructor(){
-        //cookie?
-    }
+  constructor(private _http: HttpClient, @Inject('ApiUrl') private _apiUrl: string) {
+    //cookie?
+  }
 
-    Login(login:string, password:string): Observable<boolean> {
+  Login(login: string, password: string): Observable<boolean> {
 
-        if(login=="" || password == "")
-            return new BehaviorSubject(false);
+    if (login == "" || password == "")
+      return new BehaviorSubject(false);
 
-        this.user = new User("UserName","user@user.com")
+    this.user = new User("UserName", "user@user.com")
 
-        this.isAuthorised = true;
+    this.isAuthorised = true;
 
-        return new BehaviorSubject(this.isAuthorised);
-    }
+    return new BehaviorSubject(this.isAuthorised);
+  }
 
-    LogOff() {
+  LogOff() {
 
-        this.user = null;
-        this.isAuthorised = false;
-        this.token = null;
-    }
+    this.user = null;
+    this.isAuthorised = false;
+    this.token = null;
+  }
 
-    GetToken(): string {
-        if (!this.isAuthorised)
-            return null;
-        return this.token;
-    }
+  GetToken(): string {
+    if (!this.isAuthorised)
+      return null;
+    return this.token;
+  }
 
-    Register (user:User, password:string):Observable<any>{
-      
-        return new BehaviorSubject(true);
+  Register(user: User, password: string): Observable<any> {
 
-    }
+    let header = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this._http.post(`${this._apiUrl}api/Authorization/Register`, JSON.stringify({
+      Name: user.Name,
+      Email: user.Email,
+      PhoneNumber: user.PhoneNumber,
+      DeliveryAdress: user.DefaultDeliveryAdress,
+      Password: password
+    }), { headers: header });
+
+  }
 
 }
