@@ -33,13 +33,20 @@ namespace PizzaTime.Controllers
         }
 
         [HttpPost("token")]
-        public async Task GetToken([FromBody] string username, string password)
+        public async Task GetToken(string username, string password)
         {
+
+            if(username is null || password is null)
+            {
+                Response.StatusCode = 401;
+                await Response.WriteAsync("Invalid username or password.");
+                return;
+            }
 
             var identity = GetIdentity(username, password);
             if (identity == null)
             {
-                Response.StatusCode = 400;
+                Response.StatusCode = 401;
                 await Response.WriteAsync("Invalid username or password.");
                 return;
             }
@@ -60,7 +67,8 @@ namespace PizzaTime.Controllers
                 access_token = encodedJwt,
                 user = identity.Name,
                 email = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
-                deliveryAdress = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Locality).Value
+                deliveryAdress = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Locality).Value,
+                id = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value
             };
 
             Response.ContentType = "application/json";
@@ -112,6 +120,7 @@ namespace PizzaTime.Controllers
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role),
                     new Claim(ClaimTypes.Locality, user.DeliveryAdress),
                     new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Sid, user.Id.ToString())
 
                 };
 

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DAL.Interfaces;
+using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PizzaTime.Helpers;
 using PizzaTime.ViewModels;
 
 namespace PizzaTime.Controllers
@@ -57,6 +60,23 @@ namespace PizzaTime.Controllers
             return Ok(productsList);
         }
 
+
+        [HttpPost, Authorize]
+        public IActionResult SaveOrder([FromBody] OrderViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest("Validation error!");
+
+            Order order = ConverterHelper.ConvertViewModelToOrder(model);
+
+            _dataAccess.Orders.Create(order);
+
+            _dataAccess.SaveChanges();
+
+            return Ok(order.Number);
+
+        }
 
     }
 }

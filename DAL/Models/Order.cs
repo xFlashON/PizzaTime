@@ -26,6 +26,8 @@ namespace DAL.Models
 
         public Decimal Total { get; set; }
 
+        public String DeliveryAdress { get; set; }
+
         public String Comment { get; set; }
 
         public ICollection<OrderRow> OrderRows { get; set; }

@@ -18,7 +18,7 @@ namespace DAL.Models
         [Required]
         public Pizza Pizza { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
         public virtual ICollection<OrderRowIngredient> OrderRowIngredients { get; set; }
 

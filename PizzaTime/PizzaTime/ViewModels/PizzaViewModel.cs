@@ -18,6 +18,7 @@ namespace PizzaTime.ViewModels
 
         public string ImageUrl { get; set; }
 
+        public decimal Total { get; set; }
 
         public ICollection<IngredientViewModel> Ingredients { get; set; }
 

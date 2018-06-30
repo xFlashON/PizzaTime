@@ -4,9 +4,9 @@ import { User } from "./user";
 export class Order {
 
   OrderDate: Date;
-  client: User;
-  deliveryAdress: string;
-  comment: string;
+  Customer: User;
+  DeliveryAdress: string;
+  Comment: string;
   PizzaList: Pizza[];
   Total: number;
 

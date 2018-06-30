@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { abstractDataService } from '../services/abstractDataService';
 import { OrderServise } from '../services/orderServise';
 import { forEach } from '@angular/router/src/utils/collection';
+import { AlertService, MessageSeverity } from '../services/alert.service';
 
 @Component({
   selector: 'app-pizza',
@@ -23,7 +24,7 @@ export class PizzaComponent implements OnInit {
   @Output()
   menuLoad = new EventEmitter<Pizza[]>();
 
-  constructor(private dataService: abstractDataService, private orderServise:OrderServise) {
+  constructor(private dataService: abstractDataService, private orderServise: OrderServise, private alertService: AlertService) {
 
   }
 
@@ -31,16 +32,12 @@ export class PizzaComponent implements OnInit {
 
     this.dataService.getMenu().subscribe(data => {
 
-      console.log(data);
-
       this.pizzaList = data.map(p => new Pizza(p.Name,
         p.Price,
         p.Description,
         p.Ingredients.map(i => new Ingredient(i.Name, i.Price, false, i.Id)),
         p.ImageUrl,
         p.Id));
-
-      console.log(this.pizzaList);
 
       if (this.pizzaList.length > 0)
         this.currentPizza = this.pizzaList[0];
@@ -68,6 +65,9 @@ export class PizzaComponent implements OnInit {
 
   AddToCart(currentPizza:Pizza){
     this.orderServise.AddToOrder(currentPizza);
+
+    this.alertService.showMessage("Cart", "Pizza successfully added!", MessageSeverity.success);
+
   }
 
 }

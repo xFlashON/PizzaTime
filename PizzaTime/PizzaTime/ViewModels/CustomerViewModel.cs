@@ -14,7 +14,6 @@ namespace PizzaTime.ViewModels
         [Required, MinLength(3)]
         public String Name { get; set; }
 
-        [Required]
         public String Password { get; set; }
 
         [Required]

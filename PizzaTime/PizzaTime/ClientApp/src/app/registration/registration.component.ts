@@ -60,7 +60,6 @@ export class RegistrationComponent implements OnInit {
 
         this.alertService.showStickyMessage(error);
 
-        console.log(error);
       });
 
   }

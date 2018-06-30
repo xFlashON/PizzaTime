@@ -20,16 +20,11 @@ export class MainComponent implements OnInit {
 
   onSelectedMenuItemChanged(selectedItem: number) {
 
-    if (isDevMode())
-      console.log("selected item " + selectedItem);
       this.selectedMenuItem.next(selectedItem);
 
   }
 
   onMenuLoad(event: any) {
-
-    if (isDevMode())
-      console.log("menu loaded");
 
     if (event && event instanceof Array) {
       this.pizzaList.length = 0;

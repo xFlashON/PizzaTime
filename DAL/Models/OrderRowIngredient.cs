@@ -15,7 +15,7 @@ namespace DAL.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity), Required]
         public Guid Id { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required]
         public OrderRow OrderRow { get; set; }

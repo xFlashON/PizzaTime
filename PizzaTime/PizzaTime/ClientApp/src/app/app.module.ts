@@ -60,10 +60,10 @@ import { ToastyModule } from 'ng2-toasty';
     { provide: 'ApiUrl', useFactory: getBaseUrl },
     //{ provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
     {
-      provide: abstractDataService, deps: [ProtectionServise, 'ApiUrl', HttpClient], useFactory:
-        (protectionServise: ProtectionServise, ApiUrl, HttpClient) => {
+      provide: abstractDataService, deps: [ProtectionServise, 'ApiUrl', HttpClient, AlertService], useFactory:
+        (protectionServise: ProtectionServise, ApiUrl, HttpClient, AlertService) => {
           //if (environment.production) {
-          return new DataService(protectionServise, ApiUrl, HttpClient);
+          return new DataService(protectionServise, ApiUrl, HttpClient, AlertService);
           //} else {
           //  return new testDataService( protectionServise);
           //}

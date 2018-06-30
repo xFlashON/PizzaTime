@@ -30,5 +30,21 @@ namespace DAL.Repositories
         {
             base.Update(item);
         }
+
+        public override void Create(Order item)
+        {
+            dbContext.Entry(item).State = EntityState.Added;
+
+            foreach (var row in item.OrderRows)
+            {
+                dbContext.Entry(row).State = EntityState.Added;
+
+                foreach(var rowIngredient in row.OrderRowIngredients)
+                {
+                    dbContext.Entry(rowIngredient).State = EntityState.Added;
+                }
+            }
+
+        }
     }
 }

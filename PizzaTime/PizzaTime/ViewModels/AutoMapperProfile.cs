@@ -29,8 +29,6 @@ namespace PizzaTime.ViewModels
 
             CreateMap<Customer, CustomerViewModel>().ForMember(c=>c.Password, map => map.Ignore()).ForSourceMember(c=>c.PasswordHash,map=>map.Ignore()).ReverseMap();
 
-            //CreateMap<Order, OrderViewModel>()
-            //    .ReverseMap();
         }
     }
 }
