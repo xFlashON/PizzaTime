@@ -10,6 +10,9 @@ import { abstractDataService } from '../services/abstractDataService';
 import { OrderServise } from '../services/orderServise';
 import { ProtectionServise } from '../services/protectionServise';
 import { testDataService } from '../services/testDataService';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
+import { AlertService } from '../services/alert.service';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -22,9 +25,12 @@ describe('RegistrationComponent', () => {
         CommonModule,
         FormsModule,
         SharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastyModule.forRoot(),
+        HttpClientModule
      ],
      providers:[
+      AlertService,
       ProtectionServise, 
       {provide: APP_BASE_HREF, useValue : '/' },
       { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },

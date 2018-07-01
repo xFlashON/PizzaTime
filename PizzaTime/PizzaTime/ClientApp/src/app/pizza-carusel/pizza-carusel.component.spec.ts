@@ -24,6 +24,8 @@ import { LoginComponent } from '../login/login.component';
 import { CartComponent } from '../cart/cart.component';
 import { MenuComponent } from '../menu/menu.component';
 import { MainComponent } from '../main/main.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('PizzaCaruselComponent', () => {
   let component: PizzaCaruselComponent;
@@ -39,7 +41,9 @@ describe('PizzaCaruselComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,

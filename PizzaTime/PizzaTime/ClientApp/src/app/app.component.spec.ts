@@ -19,17 +19,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from './app.module';
+import { ToastyModule } from 'ng2-toasty';
+import { AlertService } from './services/alert.service';
+import { ProtectionServise } from './services/protectionServise';
+import { OrderServise } from './services/orderServise';
+import { HttpClientModule } from '@angular/common/http';
 describe('AppComponent', () => {
   beforeEach(async(() => {
-    
+
     const appRoutes: Routes = [
       { path: '', component: MainComponent },
       { path: 'cart', component: CartComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'registration', component:RegistrationComponent},
+      { path: 'registration', component: RegistrationComponent },
       { path: '**', component: NotFoundComponent }
-    ]   
-    
+    ]
+
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -40,6 +45,8 @@ describe('AppComponent', () => {
         RouterModule,
         AppRoutingModule,
         CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,
@@ -54,7 +61,13 @@ describe('AppComponent', () => {
         NotFoundComponent,
         RegistrationComponent
       ],
-      providers:[{provide: APP_BASE_HREF, useValue : '/' }]
+      providers: [
+        OrderServise,
+        ProtectionServise,
+        AlertService,
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: 'ApiUrl', useValue: '/'}
+      ]
     }).compileComponents();
   }));
   it('should create the app', async(() => {

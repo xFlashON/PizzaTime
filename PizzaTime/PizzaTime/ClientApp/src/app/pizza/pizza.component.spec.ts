@@ -24,6 +24,9 @@ import { MenuComponent } from '../menu/menu.component';
 import { MainComponent } from '../main/main.component';
 import { PizzaCaruselComponent } from '../pizza-carusel/pizza-carusel.component';
 import { PizzaIngredientsComponent } from '../pizza-ingredients/pizza-ingredients.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
+import { AlertService } from '../services/alert.service';
 
 describe('PizzaComponent', () => {
   let component: PizzaComponent;
@@ -39,7 +42,9 @@ describe('PizzaComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,
@@ -54,7 +59,8 @@ describe('PizzaComponent', () => {
         PizzaCaruselComponent,
         PizzaIngredientsComponent
       ],
-      providers:[{provide: APP_BASE_HREF, useValue : '/' },
+      providers:[AlertService,
+        {provide: APP_BASE_HREF, useValue : '/' },
       { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
       {
         provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:

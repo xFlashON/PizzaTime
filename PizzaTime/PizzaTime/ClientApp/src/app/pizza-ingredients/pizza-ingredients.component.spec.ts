@@ -24,6 +24,8 @@ import { CartComponent } from '../cart/cart.component';
 import { MenuComponent } from '../menu/menu.component';
 import { MainComponent } from '../main/main.component';
 import { PizzaCaruselComponent } from '../pizza-carusel/pizza-carusel.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('PizzaIngredientsComponent', () => {
   let component: PizzaIngredientsComponent;
@@ -39,7 +41,9 @@ describe('PizzaIngredientsComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,

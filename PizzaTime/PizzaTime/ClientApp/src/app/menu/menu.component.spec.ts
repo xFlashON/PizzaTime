@@ -23,6 +23,8 @@ import { ProtectionServise } from '../services/protectionServise';
 import { testDataService } from '../services/testDataService';
 import { LoginComponent } from '../login/login.component';
 import { CartComponent } from '../cart/cart.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
 
 
 describe('MenuComponent', () => {
@@ -39,7 +41,9 @@ describe('MenuComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,

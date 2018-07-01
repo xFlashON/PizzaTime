@@ -24,6 +24,9 @@ import { CartComponent } from '../cart/cart.component';
 
 import { MainComponent } from './main.component';
 import { MenuComponent } from '../menu/menu.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
+import { AlertService } from '../services/alert.service';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -39,7 +42,9 @@ describe('MainComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,
@@ -54,16 +59,17 @@ describe('MainComponent', () => {
         NotFoundComponent,
         RegistrationComponent
       ],
-      providers:[{provide: APP_BASE_HREF, useValue : '/' },
-      { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
-      {
-        provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:
-          (protectionServise: ProtectionServise) => {
-            return new testDataService(protectionServise, 'ApiUrl');
-          }
-      }]
+      providers: [AlertService,
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
+        {
+          provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:
+            (protectionServise: ProtectionServise) => {
+              return new testDataService(protectionServise, 'ApiUrl');
+            }
+        }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

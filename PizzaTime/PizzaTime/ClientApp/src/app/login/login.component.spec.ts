@@ -24,6 +24,9 @@ import { testDataService } from '../services/testDataService';
 
 import { LoginComponent } from './login.component';
 import { CartComponent } from '../cart/cart.component';
+import { ToastyModule } from 'ng2-toasty';
+import { HttpClientModule } from '@angular/common/http';
+import { AlertService } from '../services/alert.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -39,7 +42,9 @@ describe('LoginComponent', () => {
         SharedModule.forRoot(),
         RouterModule,
         AppRoutingModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        ToastyModule.forRoot(),
+        HttpClientModule
       ],
       declarations: [
         AppComponent,
@@ -54,7 +59,9 @@ describe('LoginComponent', () => {
         NotFoundComponent,
         RegistrationComponent
       ],
-      providers:[{provide: APP_BASE_HREF, useValue : '/' },
+      providers:[ProtectionServise,
+        AlertService,
+        {provide: APP_BASE_HREF, useValue : '/' },
       { provide: 'ApiUrl', useValue: "http://localhost:8080/api" },
       {
         provide: abstractDataService, deps: [OrderServise, ProtectionServise, 'ApiUrl'], useFactory:
