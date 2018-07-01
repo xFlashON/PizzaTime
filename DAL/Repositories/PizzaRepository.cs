@@ -14,7 +14,7 @@ namespace DAL.Repositories
         {
         }
 
-        public override IEnumerable<Pizza> GetAll()
+        public override ICollection<Pizza> GetAll()
         {
             return dbContext.PizzaSet.Include(p => p.Ingredients).ThenInclude(i=>i.Ingredient).ToList();
         }

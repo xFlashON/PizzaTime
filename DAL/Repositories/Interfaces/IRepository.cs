@@ -10,8 +10,8 @@ namespace DAL.Interfaces
     public interface IRepository <T> where T:IEntity
     {
         T GetById(Guid Id);
-        IEnumerable<T> Get(Expression<Func<T,bool>> func);
-        IEnumerable<T> GetAll();
+        ICollection<T> Get(Expression<Func<T,bool>> func);
+        ICollection<T> GetAll();
         void Create(T item);
         void Update(T item);
         void Delete(T item);

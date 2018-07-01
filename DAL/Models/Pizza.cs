@@ -17,6 +17,7 @@ namespace DAL.Models
         [Required,ConcurrencyCheck]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         public virtual ICollection<PizzaIngredient> Ingredients { get; set; }
@@ -24,6 +25,7 @@ namespace DAL.Models
         public Pizza()
         {
             Ingredients = new List<PizzaIngredient>();
+            Description = string.Empty;
         }
 
     }

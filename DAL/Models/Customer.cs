@@ -21,14 +21,22 @@ namespace DAL.Models
         [Required, MaxLength(100)]
         public String Email { get; set; }
 
-        [MaxLength(25)]
+        [Required,MaxLength(25)]
         public String PhoneNumber { get; set; }
 
+        [Required]
         public String DeliveryAdress { get; set; }
 
+        [Required]
         public String Role {get; set;}
 
+        [Required]
         public String PasswordHash { get; set; }
+
+        public Customer()
+        {
+            DeliveryAdress = "";
+        }
 
     }
 }

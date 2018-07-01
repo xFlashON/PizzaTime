@@ -22,12 +22,16 @@ namespace DAL.Models
         [Required]
         public DateTime Date { get; set; }
 
+        [Required]
         public Customer Customer { get; set; }
 
+        [Required]
         public Decimal Total { get; set; }
 
+        [Required]
         public String DeliveryAdress { get; set; }
 
+        [Required]
         public String Comment { get; set; }
 
         public ICollection<OrderRow> OrderRows { get; set; }

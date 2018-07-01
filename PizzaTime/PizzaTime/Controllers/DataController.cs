@@ -32,7 +32,7 @@ namespace PizzaTime.Controllers
         public IActionResult GetMenu()
         {
 
-            var productsList = Mapper.Map<IEnumerable<PizzaViewModel>>(_dataAccess.Pizzas.GetAll());
+            var productsList = Mapper.Map<ICollection<PizzaViewModel>>(_dataAccess.Pizzas.GetAll());
 
             var productsPriceList = _dataAccess.PizzaPrices.Get(d => d.Date <= DateTime.Now).
                 GroupBy(p => p.Id).Select(s => s.OrderByDescending(t => t.Date).FirstOrDefault()).ToList();
@@ -40,26 +40,45 @@ namespace PizzaTime.Controllers
             var ingredientsPriceList = _dataAccess.IngredientPrices.Get(d => d.Date <= DateTime.Now).
                 GroupBy(p => p.Id).Select(s => s.OrderByDescending(t => t.Date).FirstOrDefault()).ToList();
 
-            foreach(var product in productsList)
+            foreach (var product in productsList)
             {
                 var currentPizzaPrice = productsPriceList.FirstOrDefault(p => p.Pizza.Id == product.Id);
 
-                if(currentPizzaPrice!=null)
+                if (currentPizzaPrice != null)
                     product.Price = currentPizzaPrice.Price;
 
                 foreach (var ingredient in product.Ingredients)
                 {
-                    var currentIngredientPrice = ingredientsPriceList.FirstOrDefault(i => i.Ingredient.Id==ingredient.Id);
+                    var currentIngredientPrice = ingredientsPriceList.FirstOrDefault(i => i.Ingredient.Id == ingredient.Id);
 
                     if (currentIngredientPrice != null)
                         ingredient.Price = currentIngredientPrice.Price;
                 }
+
+                product.ImageUrl = $"api/data/getImage/{product.Id}";
+
             }
 
-                           
+
             return Ok(productsList);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetImage (string id)
+        {
+            Guid guid;
+
+            if (!Guid.TryParse(id,out guid))
+                return NotFound();
+
+            var image = _dataAccess.PizzaImages.GetById(guid);
+
+            if (image is null)
+                return File("/PlaceholderPizza.jpg", "image/jpg");
+
+            return File(image.ImageData,image.MimeType);
+
+        }
 
         [HttpPost, Authorize]
         public IActionResult SaveOrder([FromBody] OrderViewModel model)

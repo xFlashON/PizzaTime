@@ -91,7 +91,10 @@ namespace DAL
             {
                 Name = userName,
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Role = isAdmin ? "Admin" : "User",
+                DeliveryAdress = "",
+                PasswordHash = "ABgCyOV0FFLNm2MjiAtoPOlX+jMOIGymbS1kS00aTJ5P4TtnViwGeo993Z2+xjvuqw==" //admin
             };
 
             var result = _context.CustomerSet.Add(applicationUser);

@@ -42,8 +42,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\PlaceholderPizza.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Logs\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\PlaceholderPizza.jpg" />
   </ItemGroup>
 
   <ItemGroup>

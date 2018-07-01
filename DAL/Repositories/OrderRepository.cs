@@ -20,7 +20,7 @@ namespace DAL.Repositories
                 .ThenInclude(or => or.OrderRowIngredients).FirstOrDefault(o=>o.Id==Id) ;
         }
 
-        public override IEnumerable<Order> GetAll()
+        public override ICollection<Order> GetAll()
         {
             return dbContext.OrderSet.Include(o => o.OrderRows).
                 ThenInclude(or => or.OrderRowIngredients).ToList();

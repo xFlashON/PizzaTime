@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaTime", "PizzaTime\PizzaTime\PizzaTime.csproj", "{027554F8-8791-42B2-BB6A-40B49AD5648A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaTime", "PizzaTime\PizzaTime\PizzaTime.csproj", "{027554F8-8791-42B2-BB6A-40B49AD5648A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2A21E4D1-5691-4237-8746-DA0BD1CC3084} = {2A21E4D1-5691-4237-8746-DA0BD1CC3084}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{2A21E4D1-5691-4237-8746-DA0BD1CC3084}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{2A21E4D1-5691-4237-8746-DA0BD1CC3084}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DF7DA3DA-0E77-4C9E-AFBC-3BDDF79F2B98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,10 @@ Global
 		{2A21E4D1-5691-4237-8746-DA0BD1CC3084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A21E4D1-5691-4237-8746-DA0BD1CC3084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A21E4D1-5691-4237-8746-DA0BD1CC3084}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF7DA3DA-0E77-4C9E-AFBC-3BDDF79F2B98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7DA3DA-0E77-4C9E-AFBC-3BDDF79F2B98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7DA3DA-0E77-4C9E-AFBC-3BDDF79F2B98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7DA3DA-0E77-4C9E-AFBC-3BDDF79F2B98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

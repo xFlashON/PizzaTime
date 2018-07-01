@@ -22,14 +22,14 @@ namespace DAL.Repositories
             return dbContext.Set<T>().FirstOrDefault(i => i.Id == Id);
         }
 
-        public virtual IEnumerable<T> Get(Expression<Func<T, bool>> func)
+        public virtual ICollection<T> Get(Expression<Func<T, bool>> func)
         {
-            return dbContext.Set<T>().Where(func);
+            return dbContext.Set<T>().Where(func).ToList();
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual ICollection<T> GetAll()
         {
-            return dbContext.Set<T>();
+            return dbContext.Set<T>().ToList();
         }
 
         public virtual void Create(T item)

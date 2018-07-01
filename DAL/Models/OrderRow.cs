@@ -18,12 +18,15 @@ namespace DAL.Models
         [Required]
         public Pizza Pizza { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
 
         public virtual ICollection<OrderRowIngredient> OrderRowIngredients { get; set; }
 
+        [Required]
         public Decimal Amount { get; set; }
 
+        [Required]
         public Decimal Total { get; set; }
 
         [Required]

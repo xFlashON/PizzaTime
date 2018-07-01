@@ -18,6 +18,8 @@ namespace DAL.Models
         [Required]
         public Pizza Pizza { get; set; }
 
+        public String MimeType { get; set; }
+
         public Byte[] ImageData { get; set; }
     }
 }
