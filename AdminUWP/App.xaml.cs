@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AdminUWP.Infrastructure;
+using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +30,10 @@ namespace AdminUWP
         /// </summary>
         public App()
         {
+
+            Mapper.Initialize(cfg => { AutomapperConfiguration.Configure(cfg); });
+            DependencyResolver.Start();
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }

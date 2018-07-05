@@ -1,0 +1,163 @@
+﻿<Page
+    x:Class="AdminUWP.Views.PizzaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AdminUWP.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Assets/Resourses.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Padding="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource PrimaryBorder}">
+
+            <StackPanel Padding="20" Orientation="Vertical">
+
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <TextBlock MinWidth="100">Name</TextBlock>
+                    <TextBox MinWidth="400" Text="{x:Bind Model.Name}" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="10"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <TextBlock MinWidth="100">Description</TextBlock>
+                    <TextBox
+                        MinWidth="400"
+                        MinHeight="200"
+                        AcceptsReturn="True"
+                        Text="{x:Bind Model.Description}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+            </StackPanel>
+
+        </Border>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Padding="10"
+            Style="{StaticResource PrimaryBorder}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ListView
+                    Grid.Row="0"
+                    ItemsSource="{x:Bind Model.Ingredients}"
+                    SelectedItem="{x:Bind Model.SelectedIngredient, Mode=TwoWay}">
+
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+
+
+                            <Border Style="{StaticResource TableBorder}">
+                                <TextBlock Style="{StaticResource TableHeadersFontStyle}">Available ingredients</TextBlock>
+                            </Border>
+
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Border BorderBrush="Black" BorderThickness="0,0,0,1">
+                                    <TextBlock Style="{StaticResource TableFontStyle}" Text="{Binding Name}" />
+                                </Border>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                </ListView>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button Command="{x:Bind Model.SelectIngredient}" Style="{StaticResource MenuButton}">Select</Button>
+                    <Button Command="{x:Bind Model.DeleteIngredient}" Style="{StaticResource MenuButton}">Delete</Button>
+                </StackPanel>
+
+
+            </Grid>
+
+
+
+        </Border>
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Style="{StaticResource PrimaryBorder}">
+
+            <Grid Padding="10" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Style="{StaticResource TableHeadersFontStyle}">Pizza image</TextBlock>
+                <Image Grid.Row="1" Source="{x:Bind Model.Image}" />
+                <Button
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    Command="{x:Bind Model.SelectImageFile}"
+                    Style="{StaticResource MenuButton}">
+                    Select file
+                </Button>
+
+            </Grid>
+
+        </Border>
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Padding="10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button Style="{StaticResource MenuButton}">Save</Button>
+            <Button Style="{StaticResource MenuButton}">Cancel</Button>
+        </StackPanel>
+
+    </Grid>
+</Page>
