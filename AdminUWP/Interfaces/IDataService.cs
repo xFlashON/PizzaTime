@@ -10,7 +10,7 @@ namespace AdminUWP.Interfaces
     public interface IDataService
     {
 
-        Task<bool> Authorise(string login, string password, Uri apiUrl);
+        Task<bool> Authorise(string login, string password, string apiUrl);
 
         Task<List<Pizza>> GetPizzaListAsync();
 
@@ -24,7 +24,11 @@ namespace AdminUWP.Interfaces
 
         Task<bool> DeleteIngredientAsync(Ingredient ingredient);
 
-        Task<BitmapImage> GetImage(Uri url);
+        Task<byte[]> GetImageData(string imageUrl);
+
+        Task<bool> SaveImageAsync(Guid id, Byte[] data, string imageType);
+
+        string GetApiUrl();
 
     }
 }

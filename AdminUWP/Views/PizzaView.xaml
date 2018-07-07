@@ -39,7 +39,7 @@
                     HorizontalAlignment="Stretch"
                     Orientation="Horizontal">
                     <TextBlock MinWidth="100">Name</TextBlock>
-                    <TextBox MinWidth="400" Text="{x:Bind Model.Name}" />
+                    <TextBox MinWidth="400" Text="{x:Bind Model.Name, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel
@@ -52,7 +52,7 @@
                         MinWidth="400"
                         MinHeight="200"
                         AcceptsReturn="True"
-                        Text="{x:Bind Model.Description}"
+                        Text="{x:Bind Model.Description, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
 
@@ -155,8 +155,8 @@
             Padding="10"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button Style="{StaticResource MenuButton}">Save</Button>
-            <Button Style="{StaticResource MenuButton}">Cancel</Button>
+            <Button Command="{x:Bind Model.SaveItemCmd}" Style="{StaticResource MenuButton}">Save</Button>
+            <Button Command="{x:Bind Model.CancelCmd}" Style="{StaticResource MenuButton}">Cancel</Button>
         </StackPanel>
 
     </Grid>

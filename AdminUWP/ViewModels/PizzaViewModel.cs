@@ -1,13 +1,16 @@
 ﻿using AdminUWP.Infrastructure;
 using AdminUWP.Interfaces;
 using AdminUWP.Model;
+using AdminUWP.Models;
 using AdminUWP.Views;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -55,7 +58,44 @@ namespace AdminUWP.ViewModels
         public IngredientViewModel SelectedIngredient { get; set; }
 
         private BitmapImage _image;
-        public BitmapImage Image {get=>_image??(_image=new BitmapImage()); set { _image = value; OnPropertyChanged("Image"); } }
+        public BitmapImage Image
+        {
+            get
+            {
+                if (_image != null)
+                    return _image;
+                else
+                {
+                    _image = new BitmapImage();
+
+                    if (ImageUrl == string.Empty)
+                        return _image;
+
+
+                    //var arr = _dataService.GetImageData(ImageUrl).Result;
+
+                    //using (MemoryStream ms = new MemoryStream(arr))
+                    //{
+
+                    //   _image.SetSourceAsync(ms.AsRandomAccessStream());
+                    //}
+
+                    Image.UriSource = new Uri(_dataService.GetApiUrl() + ImageUrl);
+
+                    return _image;
+
+                }
+
+            }
+            set
+            {
+                _image = value;
+                OnPropertyChanged("Image");
+            }
+        }
+
+        private Byte[] _imageData;
+        private string _imageType;
 
         public PizzaViewModel()
         {
@@ -87,9 +127,17 @@ namespace AdminUWP.ViewModels
             })));
         }
 
+        private DelegateCommand _saveItemCmd;
+
+        public DelegateCommand SaveItemCmd { get => _saveItemCmd ?? (_saveItemCmd = new DelegateCommand((p => SaveItem()))); }
+
+        private DelegateCommand _cancelCmd;
+
+        public DelegateCommand CancelCmd { get => _cancelCmd ?? (_cancelCmd = new DelegateCommand((p => { _navigation.Return(); }))); }
+
         public DelegateCommand SelectImageFile
         {
-            get => new DelegateCommand(async (p)  => 
+            get => new DelegateCommand(async (p) =>
             {
                 var dlg = new FileOpenPicker();
                 dlg.ViewMode = PickerViewMode.Thumbnail;
@@ -105,6 +153,27 @@ namespace AdminUWP.ViewModels
                 IRandomAccessStream stream = await file.OpenReadAsync();
                 _image.SetSource(stream);
                 _imageChanged = true;
+
+                stream.Seek(0);
+
+                _imageData = new byte[stream.Size];
+
+                await stream.ReadAsync(_imageData.AsBuffer(),(uint) stream.Size, Windows.Storage.Streams.InputStreamOptions.None);
+
+                switch (file.FileType)
+                {
+                    case ".jpg":
+                        _imageType = "image/jpeg";
+                        break;
+
+                    case ".png":
+                        _imageType = "image/png";
+                        break;
+
+                    default:
+                        _imageType = "";
+                        break;
+                }
 
                 OnPropertyChanged("Image");
 
@@ -135,5 +204,38 @@ namespace AdminUWP.ViewModels
             }
 
         }
+
+        public async void SaveItem()
+        {
+
+            var result = await _dataService.SavePizzaAsync(Mapper.Map<Pizza>(this));
+
+            if (result is null)
+            {
+                ContentDialog dlg = new ContentDialog();
+                dlg.Content = "Item is not saved!";
+                dlg.PrimaryButtonText = "Ok";
+
+                await dlg.ShowAsync();
+
+                return;
+
+            }
+
+            if (_imageChanged)
+            {
+
+                var isSaved = await _dataService.SaveImageAsync(result.Id, _imageData, _imageType);
+
+                ImageUrl = "api/data/getImage/" + Id;
+
+                await _dataService.SavePizzaAsync(Mapper.Map<Pizza>(this));
+
+            }
+
+            _navigation.NavigateTo("PizzaListView");
+
+        }
+
     }
 }

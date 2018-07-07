@@ -31,7 +31,7 @@
                     HorizontalAlignment="Stretch"
                     Orientation="Horizontal">
                     <TextBlock MinWidth="100">Ingredient</TextBlock>
-                    <TextBox MinWidth="400" Text="{x:Bind Model.Name}" />
+                    <TextBox MinWidth="400" Text="{x:Bind Model.Name, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel

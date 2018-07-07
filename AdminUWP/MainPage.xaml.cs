@@ -39,7 +39,8 @@ namespace AdminUWP
             Model.SelectPage = new DelegateCommand((p) =>
             {
                 NavigateTo((string)p);
-            }, Model.MenuCommandCanExecute);
+            },
+            Model.MenuCommandCanExecute);
         }
 
         public void NavigateTo(string page, object param = null)

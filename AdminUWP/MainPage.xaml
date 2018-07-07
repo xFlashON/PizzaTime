@@ -67,20 +67,20 @@
             Grid.Column="1"
             Margin="5"
             Style="{StaticResource PrimaryBorder}">
-            <Frame Name="Content" >
+            <Frame Name="Content" DataContext="{x:Bind Model}" >
 
                 <StackPanel Margin="20" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">Login</TextBlock>
-                        <TextBox MinWidth="200" Text="{x:Bind Model.Login}"></TextBox>
+                        <TextBox MinWidth="200" Text="{x:Bind Model.Login, Mode=TwoWay}"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">Password</TextBlock>
-                        <PasswordBox MinWidth="200" Password="{x:Bind Model.Password}"></PasswordBox>
+                        <PasswordBox MinWidth="200" Password="{x:Bind Model.Password, Mode=TwoWay}"></PasswordBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">API URL</TextBlock>
-                        <TextBox MinWidth="200" Text="{x:Bind Model.ApiUrl}"></TextBox>
+                        <TextBox MinWidth="200" Text="{x:Bind Model.ApiUrl, Mode=TwoWay}"></TextBox>
                     </StackPanel>
                     <Button MinWidth="200" MinHeight="50"  Command="{x:Bind Model.Authorise}" Background="{x:Bind Model.BgColour}"  Margin="50,10,0,0" >Authorise</Button>
                 </StackPanel>

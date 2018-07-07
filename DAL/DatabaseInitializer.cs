@@ -39,7 +39,7 @@ namespace DAL
                 _logger.LogInformation("Generating inbuilt accounts");
 
 
-                await CreateUserAsync("admin", "admin", "Inbuilt Administrator", "admin@temp.com", "+1 (123) 000-0000");
+                await CreateUserAsync("admin", "admin", "Inbuilt Administrator", "admin@temp.com", "+1 (123) 000-0000",true);
 
                 _logger.LogInformation("Inbuilt account generation completed");
             }

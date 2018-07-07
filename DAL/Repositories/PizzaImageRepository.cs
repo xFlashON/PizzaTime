@@ -13,5 +13,13 @@ namespace DAL.Repositories
         public PizzaImageRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public override void Update(PizzaImage item)
+        {
+            var dbItem = dbContext.Set<PizzaImage>().FirstOrDefault(i => i.PizzaID == item.PizzaID);
+
+            if (dbItem != null)
+                dbContext.Entry<PizzaImage>(dbItem).CurrentValues.SetValues(item);
+        }
     }
 }

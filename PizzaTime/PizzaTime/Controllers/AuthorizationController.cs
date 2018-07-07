@@ -66,6 +66,7 @@ namespace PizzaTime.Controllers
             {
                 access_token = encodedJwt,
                 user = identity.Name,
+                role = identity.Claims.FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultRoleClaimType).Value,
                 email = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
                 deliveryAdress = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Locality).Value,
                 id = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value

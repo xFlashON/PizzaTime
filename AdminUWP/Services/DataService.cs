@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using AdminUWP.Interfaces;
 using AdminUWP.Model;
 using AdminUWP.Models;
 using AdminUWP.ViewModels;
+using Newtonsoft.Json;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace AdminUWP.BL
@@ -16,7 +22,7 @@ namespace AdminUWP.BL
     {
 
         private string _token;
-        private Uri _apiUrl;
+        private string _apiUrl;
 
         public async Task<List<Pizza>> GetPizzaListAsync()
         {
@@ -26,20 +32,19 @@ namespace AdminUWP.BL
                 using (var client = new HttpClient())
                 {
 
-                    var Result = new List<Pizza>();
-
-                    for (int i = 1; i <= 100; i++)
+                    try
                     {
-                        Result.Add(new Pizza { Name = $"Pizza{i}", Ingredients = new List<Ingredient> { new Ingredient { Name = "Ingedient" }, new Ingredient { Name = "Ingedient2" }, new Ingredient { Name = "Ingedient3" } } });
+                        var data = client.GetAsync(_apiUrl + "api/Data/GetMenu").Result;
+
+                        var result = data.Content.ReadAsAsync<List<Pizza>>().Result;
+
+                        return result;
+
                     }
-
-                    return Result;
-
-                    //var res = client.GetAsync(APP_PATH + "/api/ref/getPizzas").Result;
-
-                    //var res2 = res.Content.ReadAsAsync<List<Pizza>>().Result;
-
-                    //return res2;
+                    catch (Exception ex)
+                    {
+                        return new List<Pizza>();
+                    }
 
                 }
 
@@ -48,9 +53,34 @@ namespace AdminUWP.BL
 
         public async Task<Pizza> SavePizzaAsync(Pizza pizza)
         {
-            return await Task.Run(() =>
+            return await Task.Run<Pizza>(async () =>
             {
-                return new Pizza();
+
+                using (var client = new HttpClient())
+                {
+
+                    try
+                    {
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                        var result = await client.PostAsJsonAsync(_apiUrl + "api/Data/SavePizza", pizza);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            return result.Content.ReadAsAsync<Pizza>().Result;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
+
+                }
 
             });
         }
@@ -60,14 +90,24 @@ namespace AdminUWP.BL
 
             return await Task.Run(() =>
             {
-                var Result = new List<Ingredient>();
-
-                for (int i = 1; i <= 20; i++)
+                using (var client = new HttpClient())
                 {
-                    Result.Add(new Ingredient { Name = $"Ingredient{i}" });
-                }
 
-                return Result;
+                    try
+                    {
+                        var data = client.GetAsync(_apiUrl + "api/Data/GetIngredients").Result;
+
+                        var result = data.Content.ReadAsAsync<List<Ingredient>>().Result;
+
+                        return result;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return new List<Ingredient>();
+                    }
+
+                }
             });
 
         }
@@ -96,17 +136,132 @@ namespace AdminUWP.BL
             });
         }
 
-        public Task<BitmapImage> GetImage(Uri url)
+        public async Task<bool> Authorise(string login, string password, string apiUrl)
         {
-            throw new NotImplementedException();
+            return await Task.Run(async () =>
+            {
+
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+
+                    var formContent = new FormUrlEncodedContent(new[]{
+                    new KeyValuePair<string, string>("username", login),
+                    new KeyValuePair<string, string>("password", password)
+            });
+
+
+                    try
+                    {
+                        var result = await client.PostAsync(apiUrl + "/api/Authorization/token", formContent);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            _apiUrl = apiUrl;
+
+                            var data = await result.Content.ReadAsStringAsync();
+
+                            var o = new { access_token = string.Empty, role = string.Empty };
+
+                            var responseData = JsonConvert.DeserializeAnonymousType(data, o);
+
+                            if (responseData.role != "Admin")
+                                return false;
+
+                            _token = responseData.access_token;
+
+                            return true;
+
+                        }
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+                }
+
+            });
         }
 
-        public async Task<bool> Authorise(string login, string password, Uri apiUrl)
+        public Task<byte[]> GetImageData(string imageUrl)
         {
-            return await Task.Run(() =>
+
+            return Task.Run(async () =>
             {
-                return true;
+
+                using (var client = new HttpClient())
+                {
+
+                    try
+                    {
+                        var data = await client.GetAsync(_apiUrl + imageUrl);
+
+                        var result = await data.Content.ReadAsByteArrayAsync();
+
+                        return result;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return new byte[] { };
+                    }
+                }
+
             });
+
+        }
+
+        public Task<bool> SaveImageAsync(Guid id, byte[] data, string imageType)
+        {
+
+            return Task.Run(async () =>
+            {
+
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "multipart/form-data");
+
+                    var content = new MultipartFormDataContent();
+
+                    content.Add(new StringContent(id.ToString()), "id");
+
+                    content.Add(new StringContent(imageType), "type");
+
+                    content.Add(new StringContent(Convert.ToBase64String(data)), "imagedata");
+
+                    try
+                    {
+                        var result = await client.PostAsync(_apiUrl + "api/Data/SaveImage", content);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+
+                            return true;
+
+                        }
+
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
+
+
+            });
+
+
+        }
+
+        public string GetApiUrl()
+        {
+            return _apiUrl;
         }
     }
 

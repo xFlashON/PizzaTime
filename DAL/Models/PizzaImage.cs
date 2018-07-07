@@ -15,7 +15,8 @@ namespace DAL.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity), Required]
         public Guid Id { get; set; }
 
-        [Required]
+        public Guid PizzaID { get; set; }
+
         public Pizza Pizza { get; set; }
 
         public String MimeType { get; set; }
