@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:AdminUWP.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AdminUWP.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -48,7 +49,7 @@
             </ListView.Header>
 
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="vm:IngredientViewModel">
                     <Grid
                         MinHeight="50"
                         Margin="0"
@@ -64,7 +65,17 @@
                         </Border>
 
                         <Border Grid.Column="1" Style="{StaticResource TableBorder}">
-                            <TextBlock Style="{StaticResource TableFontStyle}" Text="{Binding Price, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0:C}'}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource TableFontStyle}" Text="{Binding Price, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0:C}'}" />
+                                <Button
+                                    Margin="10,0,0,0"
+                                    Command="{Binding AddPriceCmd}"
+                                    CommandParameter="{Binding}"
+                                    Content="&#xE13E;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="24"
+                                    Style="{StaticResource EllipsisButtonRevealStyle}" />
+                            </StackPanel>
                         </Border>
 
                     </Grid>

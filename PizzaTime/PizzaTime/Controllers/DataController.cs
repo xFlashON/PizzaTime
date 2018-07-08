@@ -250,6 +250,45 @@ namespace PizzaTime.Controllers
             return Ok(Mapper.Map<List<ServiceOrderViewModel>>(data));
         }
 
+        [HttpPost, Authorize(Roles = ("Admin"))]
+        public IActionResult SaveIngredientPrice ([FromBody]ItemPriceViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var dbItem = _dataAccess.Ingredients.GetById(new Guid(model.Id));
+
+            if (dbItem is null)
+                return NotFound();
+
+            _dataAccess.IngredientPrices.Create(new IngredientPrice() { Ingredient = dbItem, Date = model.Date, Price = model.Price });
+
+            _dataAccess.SaveChanges();
+
+            return Ok();
+        }
+
+        [HttpPost, Authorize(Roles = ("Admin"))]
+        public IActionResult SavePizzaPrice([FromBody]ItemPriceViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var dbItem = _dataAccess.Pizzas.GetById(new Guid(model.Id));
+
+            if (dbItem is null)
+                return NotFound();
+
+            _dataAccess.PizzaPrices.Create(new PizzaPrice() { Pizza = dbItem, Date = model.Date, Price = model.Price });
+
+            _dataAccess.SaveChanges();
+
+            return Ok();
+        }
+
+
         #endregion
 
     }

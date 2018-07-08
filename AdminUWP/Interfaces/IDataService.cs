@@ -32,6 +32,10 @@ namespace AdminUWP.Interfaces
 
         Task<ICollection<Order>> GetOrderListAsync();
 
+        Task<bool> SavePizzaPriceAsync(Pizza pizza, DateTime date, decimal price);
+
+        Task<bool> SaveIngredientPriceAsync(Ingredient ingredient, DateTime date, decimal price);
+
         string GetApiUrl();
     }
 }

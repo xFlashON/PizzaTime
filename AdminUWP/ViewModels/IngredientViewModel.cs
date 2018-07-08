@@ -7,11 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
 namespace AdminUWP.ViewModels
 {
-    public class IngredientViewModel:ObservableObject
+    public class IngredientViewModel : ObservableObject
     {
         private IDataService _dataService;
         private INavigation _navigation;
@@ -19,10 +20,13 @@ namespace AdminUWP.ViewModels
         public Guid Id { get; set; }
 
         private string _name;
-        public string Name { get=>_name; set{ _name = value; OnPropertyChanged("Name"); } }
+        public string Name { get => _name; set { _name = value; OnPropertyChanged("Name"); } }
 
         private decimal _price;
         public decimal Price { get => _price; set { _price = value; OnPropertyChanged("Price"); } }
+
+        private ICommand _addPriceCmd;
+        public ICommand AddPriceCmd { get => _addPriceCmd ?? (_addPriceCmd = new DelegateCommand((p) => AddPrice((IngredientViewModel)p))); }
 
         public override string ToString()
         {
@@ -61,6 +65,58 @@ namespace AdminUWP.ViewModels
             }
 
             _navigation.NavigateTo("IngredientListView");
+
+        }
+
+        private async void AddPrice(IngredientViewModel p)
+        {
+
+            if (p is null)
+                return;
+
+            ContentDialog dlg = new ContentDialog();
+
+            var panel = new StackPanel() { Orientation = Orientation.Vertical };
+
+            panel.Children.Add(new TextBlock() { Text = "Date" });
+
+            var datePicker = new DatePicker();
+
+            panel.Children.Add(datePicker);
+
+            panel.Children.Add(new TextBlock() { Text = "Price" });
+
+            var priceInput = new TextBox() { Text = "0" };
+
+            panel.Children.Add(priceInput);
+
+            dlg.Content = panel;
+
+            dlg.PrimaryButtonText = "Save";
+            dlg.CloseButtonText = "Cancel";
+
+            var result = await dlg.ShowAsync();
+
+            decimal price;
+
+            if (result == ContentDialogResult.Primary && decimal.TryParse(priceInput.Text, out price) && price > 0)
+            {
+
+                var response = await _dataService.SaveIngredientPriceAsync(Mapper.Map<Ingredient>(p), datePicker.Date.Date, price);
+
+                if (response != true)
+                {
+                    dlg = new ContentDialog();
+                    dlg.Content = "Price is not saved!";
+                    dlg.PrimaryButtonText = "Ok";
+
+                    await dlg.ShowAsync();
+                }
+
+                _navigation.NavigateTo("IngredientListViewModel");
+
+            }
+
 
         }
 

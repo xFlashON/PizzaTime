@@ -180,6 +180,9 @@ namespace AdminUWP.ViewModels
             });
         }
 
+        private DelegateCommand _addPriceCmd;
+        public DelegateCommand AddPriceCmd { get => _addPriceCmd ?? (_addPriceCmd = new DelegateCommand((p) => AddPrice((PizzaViewModel)p))); }
+
         public async void OpenSelectionDialog()
         {
 
@@ -236,6 +239,58 @@ namespace AdminUWP.ViewModels
             }
 
             _navigation.NavigateTo("PizzaListView");
+
+        }
+
+        private async void AddPrice(PizzaViewModel p)
+        {
+
+            if (p is null)
+                return;
+
+            ContentDialog dlg = new ContentDialog();
+
+            var panel = new StackPanel() { Orientation = Orientation.Vertical };
+
+            panel.Children.Add(new TextBlock() { Text = "Date" });
+
+            var datePicker = new DatePicker();
+
+            panel.Children.Add(datePicker);
+
+            panel.Children.Add(new TextBlock() { Text = "Price" });
+
+            var priceInput = new TextBox() { Text = "0" };
+
+            panel.Children.Add(priceInput);
+
+            dlg.Content = panel;
+
+            dlg.PrimaryButtonText = "Save";
+            dlg.CloseButtonText = "Cancel";
+
+            var result = await dlg.ShowAsync();
+
+            decimal price;
+
+            if (result == ContentDialogResult.Primary && decimal.TryParse(priceInput.Text, out price) && price > 0)
+            {
+
+                var response = await _dataService.SavePizzaPriceAsync(Mapper.Map<Pizza>(p), datePicker.Date.Date, price);
+
+                if (response != true)
+                {
+                    dlg = new ContentDialog();
+                    dlg.Content = "Price is not saved!";
+                    dlg.PrimaryButtonText = "Ok";
+
+                    await dlg.ShowAsync();
+                }
+
+                _navigation.NavigateTo("PizzaListView");
+
+            }
+
 
         }
 

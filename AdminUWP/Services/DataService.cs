@@ -406,6 +406,70 @@ namespace AdminUWP.BL
                 }
             });
         }
+
+        public async Task<bool> SavePizzaPriceAsync(Pizza pizza, DateTime date, decimal price)
+        {
+            return await Task.Run(async () => {
+
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                    try
+                    {
+
+                        var result = await client.PostAsJsonAsync(_apiUrl + "api/Data/SavePizzaPrice", new { Id = pizza.Id.ToString(), Date = date, Price = price });
+
+                        if (result.IsSuccessStatusCode)
+                        {
+
+                            return true;
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
+
+                return false;
+
+            });
+        }
+
+        public async Task<bool> SaveIngredientPriceAsync(Ingredient ingredient, DateTime date, decimal price)
+        {
+            return await Task.Run(async ()=> {
+
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                    try { 
+
+                    var result = await client.PostAsJsonAsync(_apiUrl + "api/Data/SaveIngredientPrice", new {Id = ingredient.Id.ToString(), Date = date, Price = price});
+
+                    if (result.IsSuccessStatusCode)
+                    {
+
+                        return true;
+
+                    }
+                    }catch(Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
+
+                return false;
+
+            });
+        }
     }
 
 }
