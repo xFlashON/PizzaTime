@@ -49,8 +49,8 @@
             Padding="10"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button Style="{StaticResource MenuButton}" Command="{x:Bind Model.SaveItemCmd}">Save</Button>
-            <Button Style="{StaticResource MenuButton}" Command="{x:Bind Model.CancelCmd}">Cancel</Button>
+            <Button Command="{x:Bind Model.SaveItemCmd}" Style="{StaticResource MenuButton}">Save</Button>
+            <Button Command="{x:Bind Model.CancelCmd}" Style="{StaticResource MenuButton}">Cancel</Button>
         </StackPanel>
 
     </Grid>

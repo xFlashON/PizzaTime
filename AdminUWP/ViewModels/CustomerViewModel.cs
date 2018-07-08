@@ -1,22 +1,18 @@
-﻿using System;
+﻿using AdminUWP.Infrastructure;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace PizzaTime.ViewModels
+namespace AdminUWP.ViewModels
 {
-    public class CustomerViewModel
+    public class CustomerViewModel:ObservableObject
     {
-
         public Guid Id { get; set; }
 
-        [Required, MinLength(3)]
         public String Name { get; set; }
 
-        public String Password { get; set; }
-
-        [Required]
         public String Email { get; set; }
 
         public String PhoneNumber { get; set; }

@@ -28,7 +28,10 @@ namespace AdminUWP.Interfaces
 
         Task<bool> SaveImageAsync(Guid id, Byte[] data, string imageType);
 
-        string GetApiUrl();
+        Task<ICollection<Customer>> GetCustomerListAsync();
 
+        Task<ICollection<Order>> GetOrderListAsync();
+
+        string GetApiUrl();
     }
 }

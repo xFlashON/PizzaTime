@@ -54,7 +54,7 @@
                 </Button>
                 <Button
                     Command="{x:Bind Model.SelectPage}"
-                    CommandParameter="OrdersListView"
+                    CommandParameter="OrderListView"
                     Style="{StaticResource MenuButton}">
                     Orders
                 </Button>
@@ -67,24 +67,31 @@
             Grid.Column="1"
             Margin="5"
             Style="{StaticResource PrimaryBorder}">
-            <Frame Name="Content" DataContext="{x:Bind Model}" >
+            <Frame Name="Content" DataContext="{x:Bind Model}">
 
                 <StackPanel Margin="20" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">Login</TextBlock>
-                        <TextBox MinWidth="200" Text="{x:Bind Model.Login, Mode=TwoWay}"></TextBox>
+                        <TextBox MinWidth="200" Text="{x:Bind Model.Login, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">Password</TextBlock>
-                        <PasswordBox MinWidth="200" Password="{x:Bind Model.Password, Mode=TwoWay}"></PasswordBox>
+                        <PasswordBox MinWidth="200" Password="{x:Bind Model.Password, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Style="{StaticResource LoginTextBlock}">API URL</TextBlock>
-                        <TextBox MinWidth="200" Text="{x:Bind Model.ApiUrl, Mode=TwoWay}"></TextBox>
+                        <TextBox MinWidth="200" Text="{x:Bind Model.ApiUrl, Mode=TwoWay}" />
                     </StackPanel>
-                    <Button MinWidth="200" MinHeight="50"  Command="{x:Bind Model.Authorise}" Background="{x:Bind Model.BgColour}"  Margin="50,10,0,0" >Authorise</Button>
+                    <Button
+                        MinWidth="200"
+                        MinHeight="50"
+                        Margin="50,10,0,0"
+                        Background="{x:Bind Model.BgColour}"
+                        Command="{x:Bind Model.Authorise}">
+                        Authorise
+                    </Button>
                 </StackPanel>
-                
+
             </Frame>
         </Border>
 

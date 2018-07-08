@@ -16,6 +16,10 @@ namespace AdminUWP.Infrastructure
         {
             cfg.CreateMap<Pizza, PizzaViewModel>();
             cfg.CreateMap<Ingredient, IngredientViewModel>();
+            cfg.CreateMap<Customer, CustomerViewModel>();
+            cfg.CreateMap<Order, OrderViewModel>();
+            cfg.CreateMap<OrderRow, OrderRowViewModel>();
+            cfg.CreateMap<OrderRowIngredient, OrderRowIngredientsViewModel>();
         }
     }
 }

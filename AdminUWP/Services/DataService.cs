@@ -352,6 +352,60 @@ namespace AdminUWP.BL
         {
             return _apiUrl;
         }
+
+        public async Task<ICollection<Customer>> GetCustomerListAsync()
+        {
+            return await Task.Run(() =>
+            {
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                    try
+                    {
+                        var data = client.GetAsync(_apiUrl + "api/Data/GetCustomers").Result;
+
+                        var result = data.Content.ReadAsAsync<List<Customer>>().Result;
+
+                        return result;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return new List<Customer>();
+                    }
+
+                }
+            });
+        }
+
+        public async Task<ICollection<Order>> GetOrderListAsync()
+        {
+            return await Task.Run(() =>
+            {
+                using (var client = new HttpClient())
+                {
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                    try
+                    {
+                        var data = client.GetAsync(_apiUrl + "api/Data/GetOrders").Result;
+
+                        var result = data.Content.ReadAsAsync<List<Order>>().Result;
+
+                        return result;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return new List<Order>();
+                    }
+
+                }
+            });
+        }
     }
 
 }

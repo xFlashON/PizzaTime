@@ -45,43 +45,43 @@ namespace DAL
             }
 
 
-            if(!await _context.PizzaSet.AnyAsync())
-            {
+            //if(!await _context.PizzaSet.AnyAsync())
+            //{
 
-                Pizza pizza1 = new Pizza { Name = "Pizza1"};
-                Pizza pizza2 = new Pizza { Name = "Pizza2" };
+            //    Pizza pizza1 = new Pizza { Name = "Pizza1"};
+            //    Pizza pizza2 = new Pizza { Name = "Pizza2" };
 
-                Ingredient ingredient1 = new Ingredient { Name = "Ingredient 1"};
-                Ingredient ingredient2 = new Ingredient { Name = "Ingredient 2" };
+            //    Ingredient ingredient1 = new Ingredient { Name = "Ingredient 1"};
+            //    Ingredient ingredient2 = new Ingredient { Name = "Ingredient 2" };
 
-                IngredientPrice ingredientPrice = new IngredientPrice { Date = new DateTime(2018, 01, 01), Ingredient = ingredient1, Price = 10 };
-                IngredientPrice ingredientPrice2 = new IngredientPrice { Date = new DateTime(2019, 01, 01), Ingredient = ingredient1, Price = 15 };
+            //    IngredientPrice ingredientPrice = new IngredientPrice { Date = new DateTime(2018, 01, 01), Ingredient = ingredient1, Price = 10 };
+            //    IngredientPrice ingredientPrice2 = new IngredientPrice { Date = new DateTime(2019, 01, 01), Ingredient = ingredient1, Price = 15 };
 
-                PizzaPrice pizzaPrice = new PizzaPrice {Date = new DateTime(2018, 01, 01), Pizza = pizza1, Price = 100 };
-                PizzaPrice pizzaPrice2 = new PizzaPrice { Date = new DateTime(2018, 01, 01), Pizza = pizza2, Price = 110 };
+            //    PizzaPrice pizzaPrice = new PizzaPrice {Date = new DateTime(2018, 01, 01), Pizza = pizza1, Price = 100 };
+            //    PizzaPrice pizzaPrice2 = new PizzaPrice { Date = new DateTime(2018, 01, 01), Pizza = pizza2, Price = 110 };
 
-                _context.IngredientSet.Add(ingredient1);
-                _context.IngredientSet.Add(ingredient2);
+            //    _context.IngredientSet.Add(ingredient1);
+            //    _context.IngredientSet.Add(ingredient2);
 
-                _context.SaveChanges();
+            //    _context.SaveChanges();
 
-                pizza1.Ingredients.Add(new PizzaIngredient { Pizza = pizza1, Ingredient = ingredient1, IngredientId=ingredient1.Id });
-                pizza1.Ingredients.Add(new PizzaIngredient { Pizza = pizza1, Ingredient = ingredient2, IngredientId = ingredient2.Id });
+            //    pizza1.Ingredients.Add(new PizzaIngredient { Pizza = pizza1, Ingredient = ingredient1, IngredientId=ingredient1.Id });
+            //    pizza1.Ingredients.Add(new PizzaIngredient { Pizza = pizza1, Ingredient = ingredient2, IngredientId = ingredient2.Id });
 
-                pizza2.Ingredients.Add(new PizzaIngredient { Pizza = pizza2, Ingredient = ingredient1, IngredientId = ingredient1.Id });
+            //    pizza2.Ingredients.Add(new PizzaIngredient { Pizza = pizza2, Ingredient = ingredient1, IngredientId = ingredient1.Id });
 
-                _context.PizzaSet.Add(pizza1);
-                _context.PizzaSet.Add(pizza2);
+            //    _context.PizzaSet.Add(pizza1);
+            //    _context.PizzaSet.Add(pizza2);
 
-                _context.IngredientPriceSet.Add(ingredientPrice);
-                _context.IngredientPriceSet.Add(ingredientPrice2);
+            //    _context.IngredientPriceSet.Add(ingredientPrice);
+            //    _context.IngredientPriceSet.Add(ingredientPrice2);
 
-                _context.PizzaPriceSet.Add(pizzaPrice);
-                _context.PizzaPriceSet.Add(pizzaPrice2);
+            //    _context.PizzaPriceSet.Add(pizzaPrice);
+            //    _context.PizzaPriceSet.Add(pizzaPrice2);
 
-                _context.SaveChanges();
+            //    _context.SaveChanges();
 
-            }
+            //}
 
         }
 

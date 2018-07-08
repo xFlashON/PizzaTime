@@ -22,8 +22,11 @@ namespace DAL.Repositories
 
         public override ICollection<Order> GetAll()
         {
-            return dbContext.OrderSet.Include(o => o.OrderRows).
-                ThenInclude(or => or.OrderRowIngredients).ToList();
+            return dbContext.OrderSet.Include(o=>o.Customer).Include(o => o.OrderRows).
+                ThenInclude(or => or.OrderRowIngredients).ThenInclude(ori=>ori.Ingredient)
+                .Include(o => o.OrderRows).ThenInclude(or => or.Pizza).
+                ToList();
+
         }
 
         public override void Update(Order item)

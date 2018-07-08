@@ -13,13 +13,16 @@ namespace PizzaTime.Helpers
 
         public static Order ConvertViewModelToOrder(OrderViewModel vm)
         {
-            Order order = new Order { Id = vm.Id,
+            Order order = new Order
+            {
+                Id = vm.Id,
                 Number = vm.Number,
                 DeliveryAdress = vm.DeliveryAdress,
                 Date = vm.OrderDate,
                 Comment = vm.Comment,
                 Total = vm.Total,
-                Customer = Mapper.Map<Customer>(vm.Customer) };
+                Customer = Mapper.Map<Customer>(vm.Customer)
+            };
 
             foreach (var r in vm.PizzaList)
             {
@@ -42,5 +45,44 @@ namespace PizzaTime.Helpers
             }
             return order;
         }
+
+
+        public static OrderViewModel ConvertOrderToViewModel(Order order)
+        {
+            OrderViewModel vm = new OrderViewModel()
+            {
+
+                Number = order.Number,
+                OrderDate = order.Date,
+                Total = order.Total,
+                DeliveryAdress = order.DeliveryAdress,
+                Comment = order.Comment,
+                Customer = Mapper.Map<CustomerViewModel>(order.Customer),
+                Id = order.Id
+            };
+
+            foreach (var r in order.OrderRows)
+            {
+                PizzaViewModel p = Mapper.Map<PizzaViewModel>(r.Pizza);
+
+                p.Price = r.Price;
+                p.Total = r.Total;
+
+                foreach (var i in r.OrderRowIngredients)
+                {
+                    IngredientViewModel rowIngredient = Mapper.Map<IngredientViewModel>(i.Ingredient);
+                    rowIngredient.Price = i.Price;
+
+                    p.Ingredients.Add(rowIngredient);
+
+                }
+
+                vm.PizzaList.Add(p);
+            }
+
+            return vm;
+
+        }
+
     }
 }

@@ -6,6 +6,7 @@
 using AutoMapper;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
+using PizzaTime.Helpers;
 using PizzaTime.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ namespace PizzaTime.ViewModels
             .ForMember(i => i.Name, map => map.MapFrom(i => i.Ingredient.Name)).ReverseMap();
 
             CreateMap<Customer, CustomerViewModel>().ForMember(c=>c.Password, map => map.Ignore()).ForSourceMember(c=>c.PasswordHash,map=>map.Ignore()).ReverseMap();
+
+            CreateMap<OrderViewModel, Order>().ConvertUsing(vm=>ConverterHelper.ConvertViewModelToOrder(vm));
+
+            CreateMap<Order, OrderViewModel>().ConvertUsing(m => ConverterHelper.ConvertOrderToViewModel(m));
 
         }
     }

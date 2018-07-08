@@ -234,6 +234,22 @@ namespace PizzaTime.Controllers
             return Ok();
         }
 
+        [HttpGet, Authorize(Roles = ("Admin"))]
+        public IActionResult GetCustomers()
+        {
+            var data = _dataAccess.Customers.GetAll();
+
+            return Ok(Mapper.Map<List<CustomerViewModel>>(data));
+        }
+
+        [HttpGet, Authorize(Roles = ("Admin"))]
+        public IActionResult GetOrders()
+        {
+            var data = _dataAccess.Orders.GetAll();
+
+            return Ok(Mapper.Map<List<ServiceOrderViewModel>>(data));
+        }
+
         #endregion
 
     }
