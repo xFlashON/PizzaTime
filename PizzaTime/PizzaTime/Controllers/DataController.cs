@@ -85,9 +85,11 @@ namespace PizzaTime.Controllers
         }
 
         [HttpGet("{id}")]
-        [ResponseCache(Duration = 10)]
+        [ResponseCache(Duration = 60)]
         public IActionResult GetImage(string id)
         {
+            if (id is null)
+                return new NotFoundResult();
 
             var image = _dataAccess.PizzaImages.Get(i=>i.PizzaID.ToString() == id).FirstOrDefault();
 
@@ -125,7 +127,14 @@ namespace PizzaTime.Controllers
                 return BadRequest(ModelState);
 
             if (pizza.Id == Guid.Empty)
-                _dataAccess.Pizzas.Create(Mapper.Map<Pizza>(pizza));
+            {
+                var item = Mapper.Map<Pizza>(pizza);
+
+                _dataAccess.Pizzas.Create(item);
+
+                pizza = Mapper.Map<PizzaViewModel>(item);
+            }
+
             else
                 _dataAccess.Pizzas.Update(Mapper.Map<Pizza>(pizza));
 
@@ -136,7 +145,7 @@ namespace PizzaTime.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = ("Admin"))]
         public IActionResult SaveImage([FromForm] string id, [FromForm] string type, [FromForm] string imagedata)
         {
             if (imagedata is null || id is null)
@@ -160,6 +169,70 @@ namespace PizzaTime.Controllers
             return Ok();
         }
 
+        [HttpPost, Authorize(Roles = ("Admin"))]
+        public IActionResult SaveIngredient([FromBody] PizzaViewModel ingredient)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (ingredient.Id == Guid.Empty)
+                _dataAccess.Ingredients.Create(Mapper.Map<Ingredient>(ingredient));
+            else
+                _dataAccess.Ingredients.Update(Mapper.Map<Ingredient>(ingredient));
+
+            _dataAccess.SaveChanges();
+
+            return Ok(ingredient);
+
+        }
+
+        [HttpPost, Authorize(Roles = ("Admin"))]
+        public IActionResult DeletePizza (string id)
+        {
+
+            if (id is null)
+                return new BadRequestResult();
+
+            if (_dataAccess.Orders.Get(o => o.OrderRows.Any(or => or.Pizza.Id.ToString() == id)).Any())
+                return new StatusCodeResult(StatusCodes.Status304NotModified);
+
+            var dbItem = _dataAccess.Pizzas.GetById(new Guid(id));
+
+            if (dbItem is null)
+                return new NotFoundResult();
+
+
+            _dataAccess.Pizzas.Delete(dbItem);
+
+            _dataAccess.SaveChanges();
+
+            return Ok(true);
+        }
+
+        [HttpPost, Authorize(Roles = ("Admin"))]
+        public IActionResult DeleteIngredient(string id)
+        {
+
+            if (id is null)
+                return new BadRequestResult();
+
+            if (_dataAccess.Orders.Get(o => o.OrderRows.Any(or => or.OrderRowIngredients.Any(i=>i.Ingredient.Id.ToString() == id))).Any()
+                || _dataAccess.Pizzas.Get(p=>p.Ingredients.Any(i=>i.IngredientId.ToString()==id)).Any())
+                return new StatusCodeResult(StatusCodes.Status304NotModified);
+
+            var dbItem = _dataAccess.Ingredients.GetById(new Guid(id));
+
+            if (dbItem is null)
+                return new NotFoundResult();
+
+
+            _dataAccess.Ingredients.Delete(dbItem);
+
+            _dataAccess.SaveChanges();
+
+            return Ok();
+        }
 
         #endregion
 

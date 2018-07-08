@@ -38,7 +38,7 @@ namespace AdminUWP.ViewModels
         private decimal _price;
         public decimal Price { get => _price; set { _price = value; OnPropertyChanged("Price"); } }
 
-        private string _description;
+        private string _description = string.Empty;
         public string Description { get => _description; set { _description = value; OnPropertyChanged("Description"); } }
 
         public string ImageUrl { get; set; }
@@ -158,7 +158,7 @@ namespace AdminUWP.ViewModels
 
                 _imageData = new byte[stream.Size];
 
-                await stream.ReadAsync(_imageData.AsBuffer(),(uint) stream.Size, Windows.Storage.Streams.InputStreamOptions.None);
+                await stream.ReadAsync(_imageData.AsBuffer(), (uint)stream.Size, Windows.Storage.Streams.InputStreamOptions.None);
 
                 switch (file.FileType)
                 {
@@ -226,6 +226,8 @@ namespace AdminUWP.ViewModels
             {
 
                 var isSaved = await _dataService.SaveImageAsync(result.Id, _imageData, _imageType);
+               
+                Id = result.Id;
 
                 ImageUrl = "api/data/getImage/" + Id;
 

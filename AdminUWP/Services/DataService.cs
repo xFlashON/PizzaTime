@@ -114,25 +114,112 @@ namespace AdminUWP.BL
 
         public async Task<Ingredient> SaveIngredientAsync(Ingredient ingredient)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                return new Ingredient();
+
+                using (var client = new HttpClient())
+                {
+
+                    try
+                    {
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                        var result = await client.PostAsJsonAsync(_apiUrl + "api/Data/SaveIngredient", ingredient);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            return result.Content.ReadAsAsync<Ingredient>().Result;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
+
+                }
+
+
             });
         }
 
         public async Task<bool> DeletePizzaAsync(Pizza pizza)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                return false;
+                using (var client = new HttpClient())
+                {
+
+                    try
+                    {
+
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                        var formContent = new FormUrlEncodedContent(new[]{
+                        new KeyValuePair<string, string>("id", pizza.Id.ToString())});
+
+
+                        var result = await client.PostAsync(_apiUrl + "api/Data/DeletePizza", formContent);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
             });
         }
 
         public async Task<bool> DeleteIngredientAsync(Ingredient ingredient)
         {
-            return await Task.Run(() =>
+            return await Task.Run(async () =>
             {
-                return false;
+                using (var client = new HttpClient())
+                {
+
+                    try
+                    {
+
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
+                        client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
+
+                        var formContent = new FormUrlEncodedContent(new[]{
+                        new KeyValuePair<string, string>("id", ingredient.Id.ToString())});
+
+
+                        var result = await client.PostAsync(_apiUrl + "api/Data/DeleteIngredient", formContent);
+
+                        if (result.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return false;
+                    }
+
+                }
             });
         }
 
@@ -224,6 +311,8 @@ namespace AdminUWP.BL
                 {
 
                     client.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "multipart/form-data");
+
+                    client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer " + _token);
 
                     var content = new MultipartFormDataContent();
 

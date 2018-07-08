@@ -1,10 +1,13 @@
 ﻿using AdminUWP.Infrastructure;
 using AdminUWP.Interfaces;
+using AdminUWP.Model;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace AdminUWP.ViewModels
 {
@@ -31,5 +34,35 @@ namespace AdminUWP.ViewModels
             _dataService = DependencyResolver.Resolve<IDataService>();
             _navigation = DependencyResolver.Resolve<INavigation>();
         }
+
+        private DelegateCommand _saveItemCmd;
+
+        public DelegateCommand SaveItemCmd { get => _saveItemCmd ?? (_saveItemCmd = new DelegateCommand((p => SaveItem()))); }
+
+        private DelegateCommand _cancelCmd;
+
+        public DelegateCommand CancelCmd { get => _cancelCmd ?? (_cancelCmd = new DelegateCommand((p => { _navigation.Return(); }))); }
+
+        private async void SaveItem()
+        {
+
+            var result = await _dataService.SaveIngredientAsync(Mapper.Map<Ingredient>(this));
+
+            if (result is null)
+            {
+                ContentDialog dlg = new ContentDialog();
+                dlg.Content = "Item is not saved!";
+                dlg.PrimaryButtonText = "Ok";
+
+                await dlg.ShowAsync();
+
+                return;
+
+            }
+
+            _navigation.NavigateTo("IngredientListView");
+
+        }
+
     }
 }

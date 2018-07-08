@@ -31,7 +31,7 @@
             ItemsSource="{x:Bind Model.PizzaList}"
             SelectedItem="{x:Bind Model.SelectedItem}">
             <ListView.Header>
-                <Grid Margin="12,10,12,0" Padding="0">
+                <Grid Margin="12,0,12,0" Padding="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -51,7 +51,7 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0" Padding="0">
+                    <Grid Margin="0" Padding="0" MinHeight="50">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

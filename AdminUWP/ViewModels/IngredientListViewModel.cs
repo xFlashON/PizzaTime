@@ -97,6 +97,12 @@ namespace AdminUWP.ViewModels
                     };
                     await deleteFileDialog.ShowAsync();
                 }
+                else
+                {
+
+                    IngredientList.Remove(item);
+
+                }
 
             }
 

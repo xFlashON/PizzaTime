@@ -84,6 +84,10 @@ namespace Tests
 
             var mock = new Mock<IDataAccess>();
             mock.Setup(r => r.PizzaImages.GetById(It.IsAny<Guid>())).Returns<Guid>(id=>imagesList.Where(i=>i.Id == id).FirstOrDefault());
+            mock.Setup(r => r.PizzaImages.Get(It.IsAny<Expression<Func<PizzaImage, bool>>>())).Returns<Expression<Func<PizzaImage, bool>>>((func) =>
+            {
+                return imagesList.Where(func.Compile()).ToList();
+            });
 
             DataController controller = new DataController(mock.Object, null);
 
